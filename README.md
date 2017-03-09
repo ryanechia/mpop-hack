@@ -13,7 +13,7 @@ Currently supports 3 actions:
 * Ctrl + S - Save
 * Ctrl + P - Paste
 
-an example of MySQL database schema and a tuple is as follows:
+an example of the MySQL database schema and a tuple is as follows:
 
 | ctrl *int(4)* | alt *int(4)* | shift *int(4)* | keycode *int(11)*| action *varchar(200)*|
 | --- | --- | --- | --- | --- |
