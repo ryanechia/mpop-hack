@@ -15,7 +15,7 @@ Currently supports 3 actions:
 
 an example of MySQL database schema and a tuple is as follows:
 
-| ctrl *int(4)* | alt *int(4)* | shift *int(4)* | keycode *int(11)*| **action *varchar(200)* **|
+| ctrl *int(4)* | alt *int(4)* | shift *int(4)* | keycode *int(11)*| action *varchar(200)*|
 | --- | --- | --- | --- | --- |
 | 1 | 0 | 0 | 67 | copy |
 
