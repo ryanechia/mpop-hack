@@ -11,6 +11,4 @@ Currently supports 3 actions:
 
 Ctrl + C - Copy
 Ctrl + S - Save
-Ctrl + S - Paste
-
-
+Ctrl + P - Paste
