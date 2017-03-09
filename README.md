@@ -9,6 +9,6 @@ A working demo can be found at http://mpop.ryanechia.com
 
 Currently supports 3 actions: 
 
-*Ctrl + C - Copy
-*Ctrl + S - Save
-*Ctrl + P - Paste
+* Ctrl + C - Copy
+* Ctrl + S - Save
+* Ctrl + P - Paste
