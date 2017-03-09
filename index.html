@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+    
+    var ctrlPressed = 0;
+    var altPressed = 0
+    var shiftPressed = 0;
+    var keysTriggered = {};
+    var numTriggered = 0;
+    
+    $(document).ready(function(){
+        
+        var targArea = document.getElementById ("keyPrssInp");
+        targArea.addEventListener ('keydown',  keyDownAction);
+        targArea.addEventListener ('keyup', keyUpAction);
+        
+        function updateReport(e){
+            var reportStr = "";
+            
+            if(numTriggered == 0){
+                reportStr = "";
+            }else{
+                reportStr =
+                "Key Presses: " +
+                ( ctrlPressed ? "Control " : "" ) +
+                ( shiftPressed ? "Shift "   : "" ) +
+                ( altPressed   ? "Alt "     : "" ) +
+                ( e.metaKey  ? "Meta "    : "" ) +
+                e.code + " " +
+                "was pressed."
+            ;
+            }
+            $("#statusReport").text (reportStr);
+        }
+        
+        function keyDownAction (e) {
+
+            //prevent multi updates
+            if (keysTriggered[e.which] == null){
+                keysTriggered[e.which] = true;
+                numTriggered++;
+                updateReport(e);
+            }
+                
+            ctrlPressed = ( e.ctrlKey ? 1: 0 );
+            altPressed = ( e.altKey ? 1 : 0 );
+            shiftPressed = ( e.shiftKey ? 1 : 0 );
+            
+            
+            if(e.which !== 16 && e.which !== 17 && e.which !== 18){
+                console.log(e.which);
+                actionRequest(e.which);
+            }
+            
+            e.stopPropagation ();
+            e.preventDefault ();
+        }
+        
+        function keyUpAction(e){
+            keysTriggered[e.which] = null;
+            
+            ctrlPressed = ( e.ctrlKey ? 1: 0 );
+            altPressed = ( e.altKey ? 1 : 0 );
+            shiftPressed = ( e.shiftKey ? 1 : 0 );
+            numTriggered--;
+            updateReport(e);
+        }
+        
+    });
+    
+    function actionRequest(which){
+           var request;
+           try{
+           
+              // Opera 8.0+, Firefox, Safari
+              request = new XMLHttpRequest();
+           }catch (e){
+              
+              // Internet Explorer Browsers
+              try{
+                 request = new ActiveXObject("Msxml2.XMLHTTP");
+              }catch (e) {
+                 
+                 try{
+                    request = new ActiveXObject("Microsoft.XMLHTTP");
+                 }catch (e){
+                 
+                    // Something went wrong
+                    alert("Your browser broke!");
+                    return false;
+                 }
+              }
+           }
+           
+           // Callback function when results are returned from php
+           request.onreadystatechange = function(){
+           
+              if(request.readyState == 4){
+                 var resultDisplay = document.getElementById('results');
+                 resultDisplay.innerHTML = request.responseText;
+              }
+           }
+           
+           // grab values and pass to php
+           var queryString = "?ctrl=" + ctrlPressed ;
+           
+           queryString +=  "&alt=" + altPressed + "&shift=" + shiftPressed + "&keycode=" + which;
+           request.open("GET", "getAction.php" + queryString, true);
+           request.send(null); 
+        }
+    </script>
+</head>
+
+
+<body>
+
+<h1>Mpop demo</h1>
+
+<p><label>Press keys in here:<input type="text" value="" id="keyPrssInp"></label>
+</p>
+<p id="statusReport"></p>
+<div id="results"></div>
+</body>
+</html>
